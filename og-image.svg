@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a141c"/>
+      <stop offset="1" stop-color="#112230"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#00bfa5" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#00bfa5" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="phoneBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#152535"/>
+      <stop offset="1" stop-color="#0c1822"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Trainly logo top left -->
+  <g transform="translate(72, 72)">
+    <rect width="60" height="60" rx="15" fill="#00bfa5"/>
+    <text x="30" y="44" text-anchor="middle"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="40" font-weight="900" fill="#ffffff">T</text>
+    <text x="82" y="42"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="30" font-weight="900" fill="#ffffff">Trainly</text>
+  </g>
+
+  <!-- Tagline -->
+  <text x="72" y="295"
+        font-family="-apple-system, Inter, system-ui, sans-serif"
+        font-size="68" font-weight="900" fill="#ffffff">Book verified coaches</text>
+  <text x="72" y="375"
+        font-family="-apple-system, Inter, system-ui, sans-serif"
+        font-size="68" font-weight="900" fill="#7fffea">anywhere in Singapore.</text>
+
+  <!-- Subline -->
+  <text x="72" y="438"
+        font-family="-apple-system, Inter, system-ui, sans-serif"
+        font-size="24" font-weight="700" fill="#9fb3c4">Home · Gym · Outdoor · Virtual  ·  1,200+ verified pros</text>
+
+  <!-- Benefit pills -->
+  <g transform="translate(72, 480)"
+     font-family="-apple-system, Inter, system-ui, sans-serif"
+     font-size="20" font-weight="900" fill="#075d53">
+    <g>
+      <rect width="186" height="46" rx="23" fill="#dff8f1"/>
+      <text x="93" y="30" text-anchor="middle">Verified pros</text>
+    </g>
+    <g transform="translate(202, 0)">
+      <rect width="222" height="46" rx="23" fill="#dff8f1"/>
+      <text x="111" y="30" text-anchor="middle">Transparent pricing</text>
+    </g>
+    <g transform="translate(440, 0)">
+      <rect width="232" height="46" rx="23" fill="#dff8f1"/>
+      <text x="116" y="30" text-anchor="middle">Chat before booking</text>
+    </g>
+  </g>
+
+  <!-- Decorative phone preview on the right -->
+  <g transform="translate(810, 100)">
+    <rect x="-8" y="-8" width="316" height="446" rx="44"
+          fill="#00bfa5" opacity="0.18"/>
+    <rect width="300" height="430" rx="38" fill="url(#phoneBg)" stroke="#1f3346" stroke-width="2"/>
+
+    <!-- App header -->
+    <text x="24" y="42"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="18" font-weight="900" fill="#ffffff">Trainly</text>
+    <text x="276" y="42" text-anchor="end"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="16" font-weight="900" fill="#7fffea">92% match</text>
+
+    <!-- Coach card 1 -->
+    <rect x="20" y="68" width="260" height="158" rx="20" fill="#1b2c3d"/>
+    <rect x="20" y="68" width="260" height="84" rx="20" fill="#00bfa5" opacity="0.18"/>
+    <circle cx="60" cy="110" r="22" fill="#7fffea"/>
+    <text x="92" y="103"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="16" font-weight="900" fill="#ffffff">Sarah Lim</text>
+    <text x="92" y="124"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="12" font-weight="700" fill="#9fb3c4">Strength · Tiong Bahru</text>
+    <text x="36" y="184"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="20" font-weight="900" fill="#ffffff">S$88</text>
+    <text x="36" y="206"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="11" font-weight="800" fill="#9fb3c4">per session · 4.96 ★</text>
+    <rect x="180" y="170" width="84" height="32" rx="16" fill="#00bfa5"/>
+    <text x="222" y="191" text-anchor="middle"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="13" font-weight="900" fill="#ffffff">Book</text>
+
+    <!-- Coach card 2 -->
+    <rect x="20" y="244" width="260" height="158" rx="20" fill="#1b2c3d"/>
+    <rect x="20" y="244" width="260" height="84" rx="20" fill="#5b8def" opacity="0.18"/>
+    <circle cx="60" cy="286" r="22" fill="#f7b84b"/>
+    <text x="92" y="279"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="16" font-weight="900" fill="#ffffff">Priya Nair</text>
+    <text x="92" y="300"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="12" font-weight="700" fill="#9fb3c4">Yoga · Tampines</text>
+    <text x="36" y="360"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="20" font-weight="900" fill="#ffffff">S$72</text>
+    <text x="36" y="382"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="11" font-weight="800" fill="#9fb3c4">per session · 4.98 ★</text>
+    <rect x="180" y="346" width="84" height="32" rx="16" fill="#00bfa5"/>
+    <text x="222" y="367" text-anchor="middle"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="13" font-weight="900" fill="#ffffff">Book</text>
+  </g>
+
+  <!-- Bottom-right URL chip -->
+  <g transform="translate(810, 568)">
+    <rect width="330" height="40" rx="20" fill="rgba(255,255,255,0.08)"/>
+    <text x="165" y="26" text-anchor="middle"
+          font-family="-apple-system, Inter, system-ui, sans-serif"
+          font-size="16" font-weight="800" fill="rgba(255,255,255,0.85)">trainly.sg · launching soon</text>
+  </g>
+</svg>
