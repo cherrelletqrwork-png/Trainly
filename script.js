@@ -649,7 +649,7 @@ function showDashboard(role = "user") {
   updateDashboardHeader(role);
   renderDashboard(role === "provider");
   dashboardReady = true;
-  switchDashboardTab("overview");
+  switchDashboardTab("home");
   updateAuthHeader();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -669,13 +669,22 @@ function logout() {
 function updateDashboardHeader(role) {
   const isProvider = role === "provider";
   const name = localStorage.getItem("trainlyName") || (isProvider ? "Sarah Lim" : "Cherrelle");
-  document.querySelector("#roleBadge").textContent = isProvider ? "Service provider" : "User";
-  document.querySelector("#dashEyebrow").textContent = isProvider ? "Provider dashboard" : "User dashboard";
-  document.querySelector("#dashTitle").textContent = isProvider ? `Welcome back, Coach ${name.split(" ")[0]}` : `Welcome back, ${name}`;
-  document.querySelector("#dashIntro").textContent = isProvider
-    ? "Manage requests, earnings, calendar, reviews, and profile visibility."
-    : "Find coaches, manage sessions, chat before booking, and track progress.";
-  document.querySelector("#mainDashAction").textContent = isProvider ? "Boost profile" : "Book a session";
+  const firstName = name.split(" ")[0];
+
+  // New pulse UI elements
+  const greeting = document.querySelector("#dashGreeting");
+  if (greeting) greeting.textContent = isProvider ? `Hey Coach ${firstName} 👋` : `Hey ${firstName} 👋`;
+
+  const avatar = document.querySelector("#appAvatar");
+  if (avatar) avatar.textContent = firstName[0].toUpperCase();
+
+  const profileTitle = document.querySelector("#profileTitle");
+  if (profileTitle) profileTitle.textContent = isProvider ? "Coach Profile" : "My Profile";
+
+  // Optional legacy elements (safely removed from DOM)
+  document.querySelector("#roleBadge")?.textContent; // no-op guard
+  document.querySelector("#dashEyebrow"); // no-op guard
+  document.querySelector("#mainDashAction"); // no-op guard
 }
 
 function renderCoaches() {
@@ -953,7 +962,7 @@ function loginAs(role) {
 }
 
 function initDashboard() {
-  if (!document.querySelector("#dashboardScreen") && !document.querySelector(".dashboard-page")) return;
+  if (!document.querySelector("#dashboardScreen")) return;
 
   const role = localStorage.getItem("trainlyRole") || "user";
   const isProvider = role === "provider";
@@ -961,24 +970,25 @@ function initDashboard() {
   updateDashboardHeader(role);
 
   document.querySelector("#logoutButton")?.addEventListener("click", logout);
-  document.querySelector("#mainDashAction")?.addEventListener("click", () => {
-    if ((localStorage.getItem("trainlyRole") || "user") === "provider") {
-      switchDashboardTab("profile");
-    } else {
-      showPublic();
-      document.querySelector("#discover")?.scrollIntoView({ behavior: "smooth" });
-    }
-  });
 
   document.querySelectorAll("[data-dash-tab]").forEach((button) => {
     button.addEventListener("click", () => switchDashboardTab(button.dataset.dashTab));
   });
 
-  if (!document.querySelector("#dashboardScreen")) {
-    renderDashboard(isProvider);
-  }
+  // Specialty chips → open explore with filter
+  document.querySelectorAll("[data-specialty-chip]").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const cat = chip.dataset.specialtyChip;
+      exploreCategory = cat;
+      document.querySelectorAll("[data-specialty-chip]").forEach((c) => c.classList.toggle("active", c === chip));
+      switchDashboardTab("explore");
+      // sync explore category pills
+      document.querySelectorAll("[data-explore-cat]").forEach((p) => p.classList.toggle("active", p.dataset.exploreCat === cat));
+      renderExplore();
+    });
+  });
 
-  document.querySelector("#addBookingButton").addEventListener("click", () => {
+  document.querySelector("#addBookingButton")?.addEventListener("click", () => {
     if (isProvider) {
       providerRequests.unshift({ client: "New lead", service: "Home training", time: "Tomorrow, 6:30 PM", value: "S$95", status: "Pending" });
     } else {
@@ -987,47 +997,56 @@ function initDashboard() {
     renderBookings(isProvider);
   });
 
-  document.querySelector("#messageComposer").addEventListener("submit", (event) => {
+  document.querySelector("#messageComposer")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const input = event.currentTarget.querySelector("input");
     if (!input.value.trim()) return;
     const list = document.querySelector("#messageList");
-    list.insertAdjacentHTML("beforeend", `<div class="message-bubble me"><strong>You</strong><p>${input.value.trim()}</p></div>`);
+    list?.insertAdjacentHTML("beforeend", `<div class="message-bubble me"><strong>You</strong><p>${input.value.trim()}</p></div>`);
     input.value = "";
   });
 
-  document.querySelector("#profileForm").addEventListener("submit", (event) => {
+  document.querySelector("#profileForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const success = document.querySelector("#profileSuccess");
-    success.textContent = "Profile saved for this demo session.";
-    success.classList.add("is-visible");
+    if (success) {
+      success.textContent = "Profile saved for this demo session.";
+      success.classList.add("is-visible");
+    }
   });
 }
 
 function switchDashboardTab(tab) {
   document.querySelectorAll("[data-dash-tab]").forEach((button) => button.classList.toggle("active", button.dataset.dashTab === tab));
-  document.querySelectorAll(".dashboard-view").forEach((view) => view.classList.remove("active"));
+  document.querySelectorAll(".app-view").forEach((view) => view.classList.remove("active"));
   document.querySelector(`#${tab}View`)?.classList.add("active");
   if (tab === "explore") renderExplore();
+  if (tab === "swipe") initSwipe();
 }
 
 function renderDashboard(isProvider) {
-  document.querySelector("#statGrid").innerHTML = isProvider
-    ? statCards([
-        ["S$3.8K", "monthly earnings"],
-        ["21", "bookings this month"],
-        ["4.96", "average rating"],
-        ["87%", "profile completion"]
-      ])
-    : statCards([
-        ["3", "upcoming sessions"],
-        ["12", "week streak"],
-        ["S$38", "pass savings"],
-        ["94%", "best coach match"]
-      ]);
+  // Hidden legacy stat grid (kept for compatibility)
+  const statGrid = document.querySelector("#statGrid");
+  if (statGrid) {
+    statGrid.innerHTML = isProvider
+      ? statCards([
+          ["S$3.8K", "monthly earnings"],
+          ["21", "bookings this month"],
+          ["4.96", "average rating"],
+          ["87%", "profile completion"]
+        ])
+      : statCards([
+          ["3", "upcoming sessions"],
+          ["12", "week streak"],
+          ["S$38", "pass savings"],
+          ["94%", "best coach match"]
+        ]);
+  }
 
-  document.querySelector("#primaryListTitle").textContent = isProvider ? "New client requests" : "Recommended coaches";
-  document.querySelector("#secondaryListTitle").textContent = isProvider ? "Schedule" : "Upcoming sessions";
+  if (document.querySelector("#primaryListTitle")) document.querySelector("#primaryListTitle").textContent = isProvider ? "New client requests" : "Recommended coaches";
+  if (document.querySelector("#secondaryListTitle")) document.querySelector("#secondaryListTitle").textContent = isProvider ? "Schedule" : "Upcoming sessions";
+
+  renderHomeView(isProvider);
   renderPrimaryList(isProvider);
   renderCalendar(isProvider);
   renderBookings(isProvider);
@@ -1139,6 +1158,7 @@ function renderPrimaryList(isProvider) {
 
 function renderCalendar(isProvider) {
   const calendar = document.querySelector("#calendarList");
+  if (!calendar) return;
   const items = isProvider
     ? ["Today 7:00 PM · Alicia · Home strength", "Sat 9:00 AM · Mr. Ong · Mobility", "Sun 5:00 PM · Jia Min · Package session"]
     : ["Today 7:00 PM · Strength with Sarah", "Sat 9:00 AM · Mobility with Marcus", "Sun 5:00 PM · Yoga with Priya"];
@@ -1285,6 +1305,256 @@ function initExplore() {
     if (searchEl) searchEl.value = "";
     renderExplore();
   });
+}
+
+/* ─── Home view ──────────────────────────────────────────── */
+function renderHomeView(isProvider) {
+  const container = document.querySelector("#featuredCoaches");
+  if (!container) return;
+
+  const titleEl = document.querySelector("#featuredTitle");
+
+  if (isProvider) {
+    // Provider: show pending requests as cards
+    if (titleEl) titleEl.textContent = "New client requests";
+    container.innerHTML = providerRequests.slice(0, 3).map((req, i) => `
+      <div class="pulse-coach-card">
+        <div class="pcc-photo" style="background:var(--p-surface-alt);display:flex;align-items:center;justify-content:center;font-size:28px;">👤</div>
+        <div class="pcc-body">
+          <div class="pcc-top">
+            <div>
+              <div class="pcc-name">${req.client}</div>
+              <div class="pcc-meta">${req.service} · ${req.time}</div>
+            </div>
+            <div class="pcc-price">${req.value}</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="pcc-btn-book" data-request-index="${i}" data-request-action="Accepted">Accept</button>
+            <button class="pcc-btn-chat" data-request-index="${i}" data-request-action="Declined">Decline</button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+    container.querySelectorAll("[data-request-action]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        providerRequests[Number(btn.dataset.requestIndex)].status = btn.dataset.requestAction;
+        renderHomeView(true);
+        renderBookings(true);
+      });
+    });
+  } else {
+    // User: show featured coaches
+    if (titleEl) titleEl.textContent = "Featured coaches";
+    container.innerHTML = coaches.slice(0, 4).map((coach) => `
+      <div class="pulse-coach-card">
+        <div class="pcc-photo" style="background-image:url('${coach.image}')"></div>
+        <div class="pcc-body">
+          <div class="pcc-top">
+            <div>
+              <div class="pcc-name">${coach.name}</div>
+              <div class="pcc-meta">${coach.specialty} · ${coach.location}</div>
+            </div>
+            <div>
+              <div class="pcc-price">S$${coach.price}</div>
+              <div class="pcc-rating">★ ${coach.rating}</div>
+            </div>
+          </div>
+          <div class="pcc-actions">
+            <button class="pcc-btn-chat" data-chat="${coach.name}">Chat</button>
+            <button class="pcc-btn-book" data-book="${coach.name}">Book</button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+    container.querySelectorAll("[data-book]").forEach((btn) => btn.addEventListener("click", () => openBooking(btn.dataset.book)));
+    container.querySelectorAll("[data-chat]").forEach((btn) => btn.addEventListener("click", () => openChat(btn.dataset.chat)));
+  }
+}
+
+/* ─── Swipe / Match view ─────────────────────────────────── */
+let swipeIndex = 0;
+let savedCoaches = [];
+let swipeInitialized = false;
+
+function initSwipe() {
+  const stack = document.querySelector("#swipeStack");
+  if (!stack) return;
+
+  // Reset on each visit so filters/changes are reflected
+  swipeIndex = 0;
+  stack.innerHTML = "";
+  swipeInitialized = false;
+
+  buildSwipeStack();
+  updateSavedCount();
+
+  const btnYes = document.querySelector("#swipeBtnYes");
+  const btnNo  = document.querySelector("#swipeBtnNo");
+
+  // Remove stale listeners by replacing the buttons
+  const newYes = btnYes?.cloneNode(true);
+  const newNo  = btnNo?.cloneNode(true);
+  btnYes?.parentNode?.replaceChild(newYes, btnYes);
+  btnNo?.parentNode?.replaceChild(newNo, btnNo);
+
+  document.querySelector("#swipeBtnYes")?.addEventListener("click", () => doSwipe("right"));
+  document.querySelector("#swipeBtnNo")?.addEventListener("click", () => doSwipe("left"));
+  swipeInitialized = true;
+}
+
+function buildSwipeStack() {
+  const stack = document.querySelector("#swipeStack");
+  if (!stack) return;
+
+  const pool = [...coaches];
+  stack.innerHTML = "";
+
+  pool.forEach((coach, i) => {
+    const card = document.createElement("div");
+    card.className = "swipe-card";
+    card.style.setProperty("--card-offset", i);
+    card.dataset.coachName = coach.name;
+    card.innerHTML = `
+      <div class="sc-photo" style="background-image:url('${coach.image}')">
+        <div class="sc-photo-overlay"></div>
+        <span class="swipe-like-label">SAVE ♥</span>
+        <span class="swipe-nope-label">PASS ✕</span>
+      </div>
+      <div class="sc-info">
+        <div class="sc-name-row">
+          <span class="sc-name">${coach.name}</span>
+          <span class="sc-price">S$${coach.price}</span>
+        </div>
+        <div class="sc-meta">${coach.specialty} · ${coach.location}</div>
+        <div class="sc-rating">★ ${coach.rating} <span style="color:var(--p-ink-mute)">(${coach.reviews} reviews)</span></div>
+        <div class="sc-tags">${coach.tags.map((t) => `<span class="sc-tag">${t}</span>`).join("")}</div>
+      </div>
+    `;
+    stack.appendChild(card);
+  });
+
+  // Mark top card and attach gesture
+  refreshTopCard();
+}
+
+function refreshTopCard() {
+  const stack = document.querySelector("#swipeStack");
+  if (!stack) return;
+
+  const cards = [...stack.querySelectorAll(".swipe-card:not(.swiping-right):not(.swiping-left):not(.gone)")];
+  if (!cards.length) {
+    stack.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;color:var(--p-ink-mute);font-family:var(--p-font)">
+      <div style="font-size:48px">🎉</div>
+      <p style="font-size:16px;font-weight:600;color:var(--p-ink)">You've seen all coaches!</p>
+      <p style="font-size:13px">You saved ${savedCoaches.length} coach${savedCoaches.length === 1 ? "" : "es"}.</p>
+      <button class="match-cta" onclick="buildSwipeStack()" style="margin-top:8px">See again</button>
+    </div>`;
+    return;
+  }
+
+  cards.forEach((card, i) => {
+    card.classList.remove("is-top");
+    card.style.setProperty("--card-offset", i);
+  });
+
+  const top = cards[0];
+  top.classList.add("is-top");
+  top.style.removeProperty("--card-offset");
+  attachSwipeGesture(top);
+}
+
+function attachSwipeGesture(card) {
+  let startX = 0, startY = 0, currentX = 0, isDragging = false;
+  let lastTap = 0;
+
+  function onStart(x, y) {
+    startX = x; startY = y; currentX = x; isDragging = true;
+    card.style.transition = "none";
+  }
+
+  function onMove(x) {
+    if (!isDragging) return;
+    currentX = x;
+    const dx = currentX - startX;
+    const rotate = dx * 0.08;
+    card.style.transform = `translateX(${dx}px) rotate(${rotate}deg)`;
+
+    const like  = card.querySelector(".swipe-like-label");
+    const nope  = card.querySelector(".swipe-nope-label");
+    if (like) like.style.opacity = Math.max(0, dx / 80);
+    if (nope) nope.style.opacity = Math.max(0, -dx / 80);
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    card.style.transition = "";
+    const dx = currentX - startX;
+    if (dx > 80)       doSwipe("right");
+    else if (dx < -80) doSwipe("left");
+    else {
+      // Snap back
+      card.style.transform = "";
+      const like = card.querySelector(".swipe-like-label");
+      const nope = card.querySelector(".swipe-nope-label");
+      if (like) like.style.opacity = 0;
+      if (nope) nope.style.opacity = 0;
+    }
+  }
+
+  // Touch events
+  card.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    onStart(t.clientX, t.clientY);
+
+    // Double-tap detection
+    const now = Date.now();
+    if (now - lastTap < 300) doSwipe("right");
+    lastTap = now;
+  }, { passive: true });
+  card.addEventListener("touchmove",  (e) => onMove(e.touches[0].clientX), { passive: true });
+  card.addEventListener("touchend",   () => onEnd());
+
+  // Mouse events
+  card.addEventListener("mousedown", (e) => onStart(e.clientX, e.clientY));
+  window.addEventListener("mousemove", (e) => { if (isDragging) onMove(e.clientX); });
+  window.addEventListener("mouseup",   () => { if (isDragging) onEnd(); });
+}
+
+function doSwipe(direction) {
+  const stack = document.querySelector("#swipeStack");
+  if (!stack) return;
+
+  const top = stack.querySelector(".swipe-card.is-top");
+  if (!top) return;
+
+  const coachName = top.dataset.coachName;
+
+  if (direction === "right") {
+    const coach = coaches.find((c) => c.name === coachName);
+    if (coach && !savedCoaches.find((c) => c.name === coachName)) {
+      savedCoaches.push(coach);
+      updateSavedCount();
+    }
+    top.classList.add("swiping-right");
+  } else {
+    top.classList.add("swiping-left");
+  }
+
+  top.classList.remove("is-top");
+
+  setTimeout(() => {
+    top.classList.add("gone");
+    top.style.display = "none";
+    refreshTopCard();
+  }, 420);
+}
+
+function updateSavedCount() {
+  const el = document.querySelector("#savedCount");
+  if (el) el.textContent = savedCoaches.length;
 }
 
 /* ─── Boot sequence ──────────────────────────────────────── */

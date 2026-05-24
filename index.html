@@ -18,7 +18,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Trainly" />
-    <meta name="theme-color" content="#00bfa5" />
+    <meta name="theme-color" content="#0d0f0c" />
 
     <!-- Open Graph / Facebook / LinkedIn / WhatsApp / Slack / Discord -->
     <meta property="og:type" content="website" />
@@ -46,7 +46,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -54,13 +54,17 @@
   <body class="home-page">
 
     <!-- ── Splash screen ───────────────────────────────────── -->
-    <div id="splashScreen" class="splash-screen">
-      <div class="splash-inner">
-        <div class="splash-logo-wrap">
-          <span class="splash-mark">T</span>
-        </div>
-        <span class="splash-wordmark">Trainly</span>
-        <p class="splash-tagline">Your coach is waiting</p>
+    <div id="splashScreen" class="splash-screen ps-screen">
+      <div class="ps-kenburns-bg">
+        <img class="ps-kenburns-img" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1600&q=80" alt="" aria-hidden="true" />
+      </div>
+      <div class="ps-logo-mark">T</div>
+      <div class="ps-wordmark" aria-label="TRAINLY">
+        <span class="ps-l" style="--d:0">T</span><span class="ps-l" style="--d:1">R</span><span class="ps-l" style="--d:2">A</span><span class="ps-l" style="--d:3">I</span><span class="ps-l" style="--d:4">N</span><span class="ps-l" style="--d:5">L</span><span class="ps-l" style="--d:6">Y</span>
+      </div>
+      <p class="ps-tagline">Your coach is waiting</p>
+      <div class="ps-progress-wrap">
+        <div class="ps-progress-bar"></div>
       </div>
     </div>
 
@@ -619,114 +623,172 @@
       </div>
     </footer>
 
-    <section class="single-screen login-layout is-hidden" id="loginScreen" aria-labelledby="loginTitle">
-
-      <!-- Workout video background -->
-      <video class="login-video-bg" autoplay muted loop playsinline>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-doing-squats-in-a-gym-32931-large.mp4" type="video/mp4" />
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-man-training-in-a-gym-32934-large.mp4" type="video/mp4" />
-      </video>
-      <div class="login-video-overlay"></div>
-
-      <div class="login-art">
-        <a class="brand" href="#home" data-show-public>
-          <span class="brand-mark">T</span>
-          <span>Trainly</span>
-        </a>
-        <div class="login-art-copy">
-          <p class="eyebrow">One connected app</p>
-          <h1>Log in as a user or service provider.</h1>
-          <p>
-            This demo keeps everything on one website. Users can book and message coaches.
-            Providers can manage requests, earnings, reviews, schedules, and profile visibility.
-          </p>
+    <section class="single-screen is-hidden pls-screen" id="loginScreen" aria-labelledby="loginTitle">
+      <!-- Kenburns photo background -->
+      <div class="pls-bg">
+        <div class="pls-photo-wrap">
+          <img class="pls-photo" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1200&q=80" alt="" aria-hidden="true" />
         </div>
-        <div class="login-preview-card">
-          <strong>Live demo</strong>
-          <span>No real password required. Choose a role and enter the app.</span>
-        </div>
+        <div class="pls-overlay"></div>
       </div>
 
-      <div class="login-panel">
-        <div>
-          <p class="eyebrow">Welcome to Trainly</p>
-          <h2 id="loginTitle">Log in</h2>
+      <!-- Top brand -->
+      <div class="pls-top">
+        <div class="pls-brand-mark">T</div>
+        <span class="pls-brand-word">Trainly</span>
+      </div>
+
+      <!-- Glass panel -->
+      <div class="pls-panel">
+        <div class="pls-panel-inner">
+          <p class="pls-eyebrow">Welcome to Trainly</p>
+          <h2 class="pls-title" id="loginTitle">Log in</h2>
+
+          <div class="pls-role-switch" role="tablist" aria-label="Choose login role">
+            <button class="pls-role active" data-role-option="user" type="button">User</button>
+            <button class="pls-role" data-role-option="provider" type="button">Service provider</button>
+          </div>
+
+          <form id="loginForm" class="pls-form">
+            <div class="pls-field">
+              <label for="loginEmail">Email</label>
+              <input id="loginEmail" type="email" required autocomplete="email" />
+            </div>
+            <div class="pls-field">
+              <label for="loginPassword">Password</label>
+              <input id="loginPassword" type="password" value="trainlydemo" required autocomplete="current-password" />
+            </div>
+            <div class="pls-helper" id="loginHelper">Demo user: user@trainly.sg</div>
+            <button class="pls-submit" type="submit">Log in</button>
+          </form>
+
+          <div class="pls-quick">
+            <button class="pls-demo-btn" data-demo-login="user">Enter as user</button>
+            <button class="pls-demo-btn" data-demo-login="provider">Enter as provider</button>
+          </div>
+
+          <button class="pls-back-btn" data-show-public>← Back to website</button>
         </div>
-        <div class="role-switch" role="tablist" aria-label="Choose login role">
-          <button class="active" data-role-option="user" type="button">User</button>
-          <button data-role-option="provider" type="button">Service provider</button>
-        </div>
-        <form id="loginForm" class="login-form">
-          <label>
-            Email
-            <input id="loginEmail" type="email" required />
-          </label>
-          <label>
-            Password
-            <input id="loginPassword" type="password" value="trainlydemo" required />
-          </label>
-          <div class="login-helper" id="loginHelper">Demo user: user@trainly.sg</div>
-          <button class="primary-button large" type="submit">Log in</button>
-        </form>
-        <div class="quick-demo">
-          <button class="secondary-button" data-demo-login="user">Enter as user</button>
-          <button class="secondary-button" data-demo-login="provider">Enter as provider</button>
-        </div>
-        <button class="text-button" data-show-public>Back to website</button>
       </div>
     </section>
 
-    <section class="single-screen dashboard-page is-hidden" id="dashboardScreen">
-      <main class="dashboard-shell">
-        <aside class="dashboard-sidebar">
-          <button class="active" data-dash-tab="overview">Overview</button>
-          <button data-dash-tab="explore">Explore</button>
-          <button data-dash-tab="bookings">Bookings</button>
-          <button data-dash-tab="messages">Messages</button>
-          <button data-dash-tab="progress">Progress</button>
-          <button data-dash-tab="profile">Profile</button>
-        </aside>
+    <section class="single-screen is-hidden" id="dashboardScreen">
+      <div class="app-shell">
 
-        <section class="dashboard-content">
-          <div class="dash-hero">
-            <div>
-              <p class="eyebrow" id="dashEyebrow">User dashboard</p>
-              <h1 id="dashTitle">Welcome back</h1>
-              <p id="dashIntro">Find coaches, manage sessions, and keep your wellness plan moving.</p>
-            </div>
-            <div class="dash-hero-actions">
-              <span id="roleBadge">User</span>
-              <button class="primary-button" id="mainDashAction">Book a session</button>
-            </div>
-          </div>
+        <!-- ── Views wrapper ─────────────────────────────── -->
+        <div class="app-views-wrap">
 
-          <div class="dashboard-view active" id="overviewView">
-            <div class="stat-grid" id="statGrid"></div>
-            <div class="dash-grid">
-              <section class="dash-card">
-                <div class="card-head">
-                  <h2 id="primaryListTitle">Recommended for you</h2>
-                  <span id="primaryListMeta">Updated today</span>
-                </div>
-                <div class="stack-list" id="primaryList"></div>
-              </section>
-              <section class="dash-card">
-                <div class="card-head">
-                  <h2 id="secondaryListTitle">This week</h2>
-                  <span>Live demo</span>
-                </div>
-                <div class="calendar-list" id="calendarList"></div>
-              </section>
-            </div>
-          </div>
-
-          <!-- ── Explore view ─────────────────────────────── -->
-          <div class="dashboard-view" id="exploreView">
-            <div class="explore-head">
+          <!-- HOME VIEW -->
+          <div class="app-view active" id="homeView">
+            <div class="app-view-header">
               <div>
-                <h2>Explore coaches</h2>
-                <p>Browse verified coaches and book your next session.</p>
+                <p class="app-eyebrow">Good morning</p>
+                <h1 class="app-greeting" id="dashGreeting">Welcome back</h1>
               </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="app-avatar" id="appAvatar">C</div>
+              </div>
+            </div>
+
+            <!-- AI Match hero card -->
+            <div class="match-card">
+              <div class="match-ring match-ring-1"></div>
+              <div class="match-ring match-ring-2"></div>
+              <div class="match-ring match-ring-3"></div>
+              <div class="match-shimmer"></div>
+              <div class="match-content">
+                <p class="match-eyebrow"><span class="match-blink-dot"></span> AI Match live</p>
+                <h2 class="match-title">Your best coach<br>match is ready</h2>
+                <p class="match-body">Trainly analysed your goals and found coaches with 90%+ fit scores available this week.</p>
+                <button class="match-cta" data-dash-tab="swipe">See your matches →</button>
+              </div>
+            </div>
+
+            <!-- Availability nudge -->
+            <div class="avail-card">
+              <span>🟢</span>
+              <span><strong>8 coaches available today</strong> — home visits in your area</span>
+            </div>
+
+            <!-- Specialty chips -->
+            <div class="home-section">
+              <div class="home-section-head">
+                <h3>Explore by specialty</h3>
+              </div>
+              <div class="specialty-chips-row">
+                <button class="specialty-chip" data-specialty-chip="all">All</button>
+                <button class="specialty-chip" data-specialty-chip="Strength">Strength</button>
+                <button class="specialty-chip" data-specialty-chip="Yoga">Yoga</button>
+                <button class="specialty-chip" data-specialty-chip="Pilates">Pilates</button>
+                <button class="specialty-chip" data-specialty-chip="Physio">Rehab</button>
+                <button class="specialty-chip" data-specialty-chip="Nutrition">Nutrition</button>
+                <button class="specialty-chip" data-specialty-chip="Kids Sports">Kids</button>
+              </div>
+            </div>
+
+            <!-- Featured coaches (rendered by JS) -->
+            <div class="home-section">
+              <div class="home-section-head">
+                <h3 id="featuredTitle">Featured coaches</h3>
+                <button class="home-see-all" data-dash-tab="swipe">See all</button>
+              </div>
+              <div class="featured-coaches-list" id="featuredCoaches"></div>
+            </div>
+
+            <!-- Trust strip -->
+            <div class="trust-strip">
+              <div class="trust-item">
+                <span class="trust-key">500+</span>
+                <span class="trust-val">verified coaches</span>
+              </div>
+              <div class="trust-divider"></div>
+              <div class="trust-item">
+                <span class="trust-key">4.9★</span>
+                <span class="trust-val">avg rating</span>
+              </div>
+              <div class="trust-divider"></div>
+              <div class="trust-item">
+                <span class="trust-key">48hr</span>
+                <span class="trust-val">verification</span>
+              </div>
+            </div>
+
+            <!-- Hidden legacy containers (kept for JS render functions) -->
+            <div style="display:none" aria-hidden="true">
+              <div id="statGrid"></div>
+              <div id="primaryList"></div>
+              <div id="calendarList"></div>
+              <span id="primaryListTitle"></span>
+              <span id="secondaryListTitle"></span>
+            </div>
+          </div><!-- /#homeView -->
+
+          <!-- SWIPE / MATCH VIEW -->
+          <div class="app-view" id="swipeView">
+            <div class="swipe-view-header">
+              <h2 class="swipe-title">Your Matches</h2>
+              <button class="saved-badge-btn" id="savedCountBtn">Saved <span id="savedCount">0</span></button>
+            </div>
+
+            <div class="swipe-area">
+              <div class="swipe-stack" id="swipeStack">
+                <!-- Cards injected by initSwipe() -->
+              </div>
+            </div>
+
+            <div class="swipe-actions">
+              <button class="swipe-btn swipe-btn-no" id="swipeBtnNo" aria-label="Pass">✕</button>
+              <button class="swipe-btn swipe-btn-yes" id="swipeBtnYes" aria-label="Save">♥</button>
+            </div>
+            <p class="swipe-hint">Swipe right or double-tap to save · swipe left to pass</p>
+          </div><!-- /#swipeView -->
+
+          <!-- EXPLORE VIEW (hidden, accessible via specialty chips) -->
+          <div class="app-view" id="exploreView">
+            <div class="app-view-header">
+              <h2>Explore coaches</h2>
+            </div>
+            <div class="explore-head">
               <div class="explore-search-wrap">
                 <input id="exploreSearchInput" type="text" placeholder="Search by name or specialty…" aria-label="Search coaches" />
               </div>
@@ -743,8 +805,7 @@
             </div>
 
             <div class="explore-filters">
-              <label>
-                Session
+              <label>Session
                 <select id="exploreSessionFilter">
                   <option value="all">Any session</option>
                   <option value="Home">Home visit</option>
@@ -753,8 +814,7 @@
                   <option value="Virtual">Virtual</option>
                 </select>
               </label>
-              <label>
-                Budget
+              <label>Budget
                 <select id="exploreBudgetFilter">
                   <option value="all">Any price</option>
                   <option value="75">Under S$75</option>
@@ -762,8 +822,7 @@
                   <option value="130">Under S$130</option>
                 </select>
               </label>
-              <label>
-                Style
+              <label>Style
                 <select id="exploreVibeFilter">
                   <option value="all">Any style</option>
                   <option value="Patient">Patient</option>
@@ -781,62 +840,84 @@
             </div>
 
             <div class="coach-grid" id="exploreGrid"></div>
-          </div>
+          </div><!-- /#exploreView -->
 
-          <div class="dashboard-view" id="bookingsView">
-            <section class="dash-card">
-              <div class="card-head">
-                <h2 id="bookingViewTitle">Bookings</h2>
-                <button class="secondary-button" id="addBookingButton">Add demo booking</button>
-              </div>
-              <div class="booking-board" id="bookingBoard"></div>
-            </section>
-          </div>
+          <!-- BOOKINGS VIEW -->
+          <div class="app-view" id="bookingsView">
+            <div class="app-view-header">
+              <h2 id="bookingViewTitle">Bookings</h2>
+              <button class="app-add-btn" id="addBookingButton">+ Add</button>
+            </div>
+            <div class="booking-board-list" id="bookingBoard"></div>
 
-          <div class="dashboard-view" id="messagesView">
-            <section class="dash-card messages-card">
+            <!-- Messages section -->
+            <div class="messages-section">
+              <h3>Messages</h3>
               <div class="message-list" id="messageList"></div>
               <form class="message-composer" id="messageComposer">
                 <input placeholder="Type a message..." aria-label="Message" />
-                <button class="primary-button" type="submit">Send</button>
+                <button type="submit">Send</button>
               </form>
-            </section>
-          </div>
+            </div>
+          </div><!-- /#bookingsView -->
 
-          <div class="dashboard-view" id="progressView">
-            <section class="dash-card progress-card" id="progressPanel"></section>
-          </div>
+          <!-- PROFILE VIEW -->
+          <div class="app-view" id="profileView">
+            <div class="app-view-header">
+              <h2 id="profileTitle">Profile</h2>
+              <span class="verified-badge" id="profileStatus">✓ Verified</span>
+            </div>
 
-          <div class="dashboard-view" id="profileView">
-            <section class="dash-card">
-              <div class="card-head">
-                <h2 id="profileTitle">Profile</h2>
-                <span id="profileStatus">Verified</span>
-              </div>
-              <form class="profile-form" id="profileForm">
-                <label>
-                  Display name
-                  <input name="displayName" />
-                </label>
-                <label>
-                  Main goal or specialty
-                  <input name="specialty" />
-                </label>
-                <label>
-                  Preferred area
-                  <input name="area" />
-                </label>
-                <label>
-                  Bio
-                  <input name="bio" />
-                </label>
-                <button class="primary-button form-submit" type="submit">Save profile</button>
-              </form>
-              <div class="success-message" id="profileSuccess"></div>
-            </section>
-          </div>
-        </section>
-      </main>
+            <form class="pulse-form" id="profileForm">
+              <label class="pulse-label">Display name
+                <input class="pulse-input" name="displayName" />
+              </label>
+              <label class="pulse-label">Main goal or specialty
+                <input class="pulse-input" name="specialty" />
+              </label>
+              <label class="pulse-label">Preferred area
+                <input class="pulse-input" name="area" />
+              </label>
+              <label class="pulse-label">Bio
+                <input class="pulse-input" name="bio" />
+              </label>
+              <button class="pulse-submit-btn" type="submit">Save profile</button>
+            </form>
+            <div class="success-message" id="profileSuccess"></div>
+
+            <!-- Progress / earnings panel -->
+            <div class="progress-section" id="progressPanel"></div>
+
+            <!-- Profile actions -->
+            <div class="profile-actions">
+              <button class="back-to-site-btn" data-show-public>← Back to website</button>
+              <button class="logout-pulse-btn" id="logoutButton">Log out</button>
+            </div>
+          </div><!-- /#profileView -->
+
+        </div><!-- /.app-views-wrap -->
+
+        <!-- ── Bottom tab bar ─────────────────────────────── -->
+        <nav class="tab-bar" aria-label="App navigation">
+          <button class="tab active" data-dash-tab="home" aria-label="Home">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Home</span>
+          </button>
+          <button class="tab" data-dash-tab="swipe" aria-label="Match">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span>Match</span>
+          </button>
+          <button class="tab" data-dash-tab="bookings" aria-label="Bookings">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Bookings</span>
+          </button>
+          <button class="tab" data-dash-tab="profile" aria-label="Profile">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Profile</span>
+          </button>
+        </nav>
+
+      </div><!-- /.app-shell -->
     </section>
 
     <div class="modal" id="quizModal" aria-hidden="true" role="dialog" aria-labelledby="quizTitle">
