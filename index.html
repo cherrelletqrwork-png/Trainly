@@ -46,6 +46,18 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="home-page">
+
+    <!-- ── Splash screen ───────────────────────────────────── -->
+    <div id="splashScreen" class="splash-screen">
+      <div class="splash-inner">
+        <div class="splash-logo-wrap">
+          <span class="splash-mark">T</span>
+        </div>
+        <span class="splash-wordmark">Trainly</span>
+        <p class="splash-tagline">Your coach is waiting</p>
+      </div>
+    </div>
+
     <header class="site-header" data-header>
       <a class="brand" href="#home" data-show-public aria-label="Trainly home">
         <span class="brand-mark">T</span>
@@ -71,7 +83,7 @@
       </button>
     </header>
 
-    <main id="publicSite">
+    <main id="publicSite" class="is-hidden">
       <section class="hero-product" id="home">
         <div class="hero-copy-block">
           <p class="eyebrow">Train anywhere. With the right person.</p>
@@ -558,7 +570,7 @@
       </section>
     </main>
 
-    <footer class="site-footer" id="publicFooter">
+    <footer class="site-footer is-hidden" id="publicFooter">
       <div class="footer-top">
         <div class="footer-brand">
           <a class="brand" href="#home" data-show-public>
@@ -602,6 +614,14 @@
     </footer>
 
     <section class="single-screen login-layout is-hidden" id="loginScreen" aria-labelledby="loginTitle">
+
+      <!-- Workout video background -->
+      <video class="login-video-bg" autoplay muted loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-doing-squats-in-a-gym-32931-large.mp4" type="video/mp4" />
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-man-training-in-a-gym-32934-large.mp4" type="video/mp4" />
+      </video>
+      <div class="login-video-overlay"></div>
+
       <div class="login-art">
         <a class="brand" href="#home" data-show-public>
           <span class="brand-mark">T</span>
@@ -654,6 +674,7 @@
       <main class="dashboard-shell">
         <aside class="dashboard-sidebar">
           <button class="active" data-dash-tab="overview">Overview</button>
+          <button data-dash-tab="explore">Explore</button>
           <button data-dash-tab="bookings">Bookings</button>
           <button data-dash-tab="messages">Messages</button>
           <button data-dash-tab="progress">Progress</button>
@@ -691,6 +712,69 @@
                 <div class="calendar-list" id="calendarList"></div>
               </section>
             </div>
+          </div>
+
+          <!-- ── Explore view ─────────────────────────────── -->
+          <div class="dashboard-view" id="exploreView">
+            <div class="explore-head">
+              <div>
+                <h2>Explore coaches</h2>
+                <p>Browse verified coaches and book your next session.</p>
+              </div>
+              <div class="explore-search-wrap">
+                <input id="exploreSearchInput" type="text" placeholder="Search by name or specialty…" aria-label="Search coaches" />
+              </div>
+            </div>
+
+            <div class="explore-category-strip" id="exploreCategoryStrip">
+              <button class="category-pill active" data-explore-cat="all">All</button>
+              <button class="category-pill" data-explore-cat="Strength">Strength</button>
+              <button class="category-pill" data-explore-cat="Yoga">Yoga</button>
+              <button class="category-pill" data-explore-cat="Pilates">Pilates</button>
+              <button class="category-pill" data-explore-cat="Physio">Rehab</button>
+              <button class="category-pill" data-explore-cat="Nutrition">Nutrition</button>
+              <button class="category-pill" data-explore-cat="Kids Sports">Kids sports</button>
+            </div>
+
+            <div class="explore-filters">
+              <label>
+                Session
+                <select id="exploreSessionFilter">
+                  <option value="all">Any session</option>
+                  <option value="Home">Home visit</option>
+                  <option value="Gym">Gym</option>
+                  <option value="Outdoor">Outdoor</option>
+                  <option value="Virtual">Virtual</option>
+                </select>
+              </label>
+              <label>
+                Budget
+                <select id="exploreBudgetFilter">
+                  <option value="all">Any price</option>
+                  <option value="75">Under S$75</option>
+                  <option value="100">Under S$100</option>
+                  <option value="130">Under S$130</option>
+                </select>
+              </label>
+              <label>
+                Style
+                <select id="exploreVibeFilter">
+                  <option value="all">Any style</option>
+                  <option value="Patient">Patient</option>
+                  <option value="Calm">Calm</option>
+                  <option value="High energy">High energy</option>
+                  <option value="Technical">Technical</option>
+                </select>
+              </label>
+              <button class="text-button" id="exploreResetFilters">Reset</button>
+            </div>
+
+            <div class="result-bar">
+              <strong id="exploreResultCount">All coaches</strong>
+              <span>Sorted by Trainly fit score</span>
+            </div>
+
+            <div class="coach-grid" id="exploreGrid"></div>
           </div>
 
           <div class="dashboard-view" id="bookingsView">

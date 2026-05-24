@@ -1007,7 +1007,8 @@ function initDashboard() {
 function switchDashboardTab(tab) {
   document.querySelectorAll("[data-dash-tab]").forEach((button) => button.classList.toggle("active", button.dataset.dashTab === tab));
   document.querySelectorAll(".dashboard-view").forEach((view) => view.classList.remove("active"));
-  document.querySelector(`#${tab}View`).classList.add("active");
+  document.querySelector(`#${tab}View`)?.classList.add("active");
+  if (tab === "explore") renderExplore();
 }
 
 function renderDashboard(isProvider) {
@@ -1197,7 +1198,99 @@ function renderProfile(isProvider) {
   form.bio.value = isProvider ? "Patient coach for beginners and busy adults." : "Looking for supportive coaches and flexible evening sessions.";
 }
 
+/* ─── Splash screen ─────────────────────────────────────── */
+function initSplash() {
+  const splash = document.querySelector("#splashScreen");
+  if (!splash) return;
+
+  // After 2.2 s start fading, then hide and show the right screen
+  setTimeout(() => {
+    splash.classList.add("fading");
+    setTimeout(() => {
+      splash.classList.add("is-hidden");
+      // If already logged in, go straight to dashboard; otherwise login
+      const savedRole = localStorage.getItem("trainlyRole");
+      if (savedRole) {
+        showDashboard(savedRole);
+      } else {
+        showLogin("user");
+      }
+    }, 720); // matches CSS transition duration
+  }, 2200);
+}
+
+/* ─── Explore tab ────────────────────────────────────────── */
+let exploreCategory = "all";
+
+function renderExplore() {
+  const grid = document.querySelector("#exploreGrid");
+  const countEl = document.querySelector("#exploreResultCount");
+  if (!grid) return;
+
+  const query = (document.querySelector("#exploreSearchInput")?.value || "").toLowerCase().trim();
+  const session = document.querySelector("#exploreSessionFilter")?.value || "all";
+  const budget = document.querySelector("#exploreBudgetFilter")?.value || "all";
+  const vibe = document.querySelector("#exploreVibeFilter")?.value || "all";
+
+  let list = coaches
+    .filter((c) => exploreCategory === "all" || c.specialty === exploreCategory)
+    .filter((c) => !query || c.name.toLowerCase().includes(query) || c.specialty.toLowerCase().includes(query) || c.bio.toLowerCase().includes(query))
+    .filter((c) => session === "all" || c.sessions.includes(session))
+    .filter((c) => budget === "all" || c.price <= Number(budget))
+    .filter((c) => vibe === "all" || c.vibe === vibe)
+    .sort((a, b) => b.fit - a.fit);
+
+  if (countEl) countEl.textContent = `${list.length} coach${list.length === 1 ? "" : "es"} found`;
+
+  grid.innerHTML = list.length
+    ? list.map(coachCard).join("")
+    : `<article class="coach-card"><div class="coach-body"><h3>No coaches found</h3><p>Try adjusting your search or filters.</p></div></article>`;
+
+  // Wire up card buttons
+  grid.querySelectorAll("[data-book]").forEach((btn) => btn.addEventListener("click", () => openBooking(btn.dataset.book)));
+  grid.querySelectorAll("[data-view]").forEach((btn) => btn.addEventListener("click", () => openCoachDetail(btn.dataset.view)));
+  grid.querySelectorAll("[data-chat]").forEach((btn) => btn.addEventListener("click", () => openChat(btn.dataset.chat)));
+  grid.querySelectorAll("[data-save]").forEach((btn) => {
+    btn.addEventListener("click", () => { btn.textContent = btn.textContent === "Saved" ? "Save" : "Saved"; });
+  });
+}
+
+function initExplore() {
+  // Category pills
+  document.querySelectorAll("[data-explore-cat]").forEach((pill) => {
+    pill.addEventListener("click", () => {
+      exploreCategory = pill.dataset.exploreCat;
+      document.querySelectorAll("[data-explore-cat]").forEach((p) => p.classList.toggle("active", p === pill));
+      renderExplore();
+    });
+  });
+
+  // Search input — live filter
+  document.querySelector("#exploreSearchInput")?.addEventListener("input", renderExplore);
+
+  // Filter dropdowns
+  ["exploreSessionFilter", "exploreBudgetFilter", "exploreVibeFilter"].forEach((id) => {
+    document.querySelector(`#${id}`)?.addEventListener("change", renderExplore);
+  });
+
+  // Reset
+  document.querySelector("#exploreResetFilters")?.addEventListener("click", () => {
+    exploreCategory = "all";
+    document.querySelectorAll("[data-explore-cat]").forEach((p) => p.classList.toggle("active", p.dataset.exploreCat === "all"));
+    ["exploreSessionFilter", "exploreBudgetFilter", "exploreVibeFilter"].forEach((id) => {
+      const el = document.querySelector(`#${id}`);
+      if (el) el.value = "all";
+    });
+    const searchEl = document.querySelector("#exploreSearchInput");
+    if (searchEl) searchEl.value = "";
+    renderExplore();
+  });
+}
+
+/* ─── Boot sequence ──────────────────────────────────────── */
 initShared();
 initHome();
 initLogin();
 initDashboard();
+initExplore();
+initSplash();
