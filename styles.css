@@ -2444,8 +2444,10 @@ select {
 .ps-kenburns-img {
   position: absolute;
   inset: -10%;
-  background-size: cover;
-  background-position: center;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  object-position: center;
   animation: trainly-kenburns 12s ease-in-out infinite alternate;
   opacity: 0.18;
 }
@@ -2465,6 +2467,8 @@ select {
   justify-content: center;
 }
 .ps-logo-mark {
+  position: relative;
+  z-index: 1;
   width: 72px;
   height: 72px;
   border-radius: 20px;
@@ -2476,9 +2480,11 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: splashPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+  animation: splashPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
 }
 .ps-wordmark {
+  position: relative;
+  z-index: 1;
   font-family: var(--p-font);
   font-size: 52px;
   font-weight: 700;
@@ -2489,22 +2495,28 @@ select {
 .ps-l {
   display: inline-block;
   opacity: 0;
-  animation: psLetterIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) forwards;
+  /* Use separate animation-delay so calc() with unitless --d works correctly */
+  animation: psLetterIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--d, 0) * 0.08s + 0.25s);
 }
 @keyframes psLetterIn {
   from { opacity: 0; transform: translateY(14px); filter: blur(8px); }
   to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
 }
 .ps-tagline {
+  position: relative;
+  z-index: 1;
   font-family: var(--p-mono);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--p-ink-mute);
   opacity: 0;
-  animation: trainly-fade-in 0.4s ease 0.9s forwards;
+  animation: trainly-fade-in 0.4s ease 1.0s forwards;
 }
 .ps-progress-wrap {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 2px;
   background: var(--p-border);
